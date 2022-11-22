@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="title">
+        <h1>Sorting Visualizer</h1>
+    </div>
+
+    <div class="buttons">
+        <button id="randomize">Randomize array</button>
+    </div>
+
+    <div class="container">
+        <div id="bar_container" class="bar_container">
+
+        </div>
+
+        <div class="input_container">
+            <div class="slider field">
+                <label for="size_slider">Size of Array</label>
+                <input type="range" name="size_slider" id="size_slider" min="5" max="30" value="20" step="3">
+            </div>
+
+            <div class="algorithm  field">
+                <select name="algorithm_to_use" id="algorithm_to_use">
+                    <option value="selection_sort">Selection Sort</option>
+                    <option value="insertion_sort">Insertion Sort</option>
+                    <option value="bubble_sort">Bubble Sort</option>
+                    <option value="heap_sort">Heap Sort</option>
+                    <option value="none" selected>Choose an algorithm to simulate</option>
+                </select>
+            </div>
+
+            <div class="speed field">
+                <select name="speed_selecter" id="speed_selecter">
+                    <option value="slow">Slow</option>
+                    <option value="medium">Medium</option>
+                    <option value="fast">Fast</option>
+                    <option value="none" selected>Choose speed of execution</option>
+                </select>
+            </div>
+
+            <div class="buttons  field">
+                <button id="start_sorting">Start Procedure</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <footer>
+        <a href="mailto:manoj20ucse094@mahindrauniversity.edu.in">Email</a>
+        <p>Author: Manoj Singh Tomer</p>
+        <a href="#">Source Code</a>
+        
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
