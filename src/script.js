@@ -6,6 +6,9 @@ speed_selecter = document.getElementById("speed_selecter");
 sorting_start_button = document.getElementById("start_sorting");
 bar_container = document.getElementById("bar_container");
 bar = document.getElementById("bar");
+sound_button = document.getElementById("sounds");
+
+let sound_required = false;
 
 let number_of_bars = size_slider.value;
 let random_array = new Array(number_of_bars);
@@ -58,6 +61,17 @@ randomize.addEventListener("click", function() {
     render_bars(random_array);
 });
 
+sound_button.addEventListener("click", function() {
+  if (sound_button.innerText == "Sound Off"){
+    sound_button.innerText = "Sound On";
+    sound_required = true;
+  }
+  else{
+    sound_button.innerText = "Sound Off";
+    sound_required = false;
+  }
+})
+
 size_slider.addEventListener("input", function() {
     number_of_bars = size_slider.value;
     maximum_in_array = size_slider.value;
@@ -68,6 +82,26 @@ size_slider.addEventListener("input", function() {
 
 function sleep_for(ms){
     return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function play_beep() {
+  return new Promise(function(resolve, reject) {   // return a promise
+      var audio = new Audio("/sounds/ting.mp3");                     // create audio wo/ src
+      audio.preload = "auto";                      // intend to play through
+      audio.autoplay = true;                       // autoplay when loaded
+      audio.onerror = reject;                      // on error, reject
+      audio.onended = resolve;                     // when done, resolve
+  });
+}
+
+function play_whoosh() {
+  return new Promise(function(resolve, reject) {   // return a promise
+      var audio = new Audio("/sounds/whoosh.mp3");                     // create audio wo/ src
+      audio.preload = "auto";                      // intend to play through
+      audio.autoplay = true;                       // autoplay when loaded
+      audio.onerror = reject;                      // on error, reject
+      audio.onended = resolve;                     // when done, resolve
+  });
 }
 
 algorithm_selecter.addEventListener("change", function() {
@@ -106,35 +140,47 @@ sorting_start_button.addEventListener("click", function () {
 
 //-----------------------------BUBBLE SORT-----------------------------
 async function bubble_sort(array) {
-    let bars = document.getElementsByClassName("bar");
-    for (let i = 0; i < array.length; i++) {
-      for (let j = 0; j < array.length - i - 1; j++) {
+  let bars = document.getElementsByClassName("bar");
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array.length - i - 1; j++) {
 
-        bars[j].style.backgroundColor = "pink";
-        bars[j + 1].style.backgroundColor = "pink";
+      bars[j].style.backgroundColor = "pink";
+      bars[j + 1].style.backgroundColor = "pink";
 
-        if (array[j] > array[j + 1]) {
-          for (let k = 0; k < bars.length - i - 1; k++) {
-            if (k !== j && k !== j + 1) {
-              bars[k].style.backgroundColor = "floralwhite";
-            }
+      if (array[j] > array[j + 1]) {
+        for (let k = 0; k < bars.length - i - 1; k++) {
+          if (k !== j && k !== j + 1) {
+            bars[k].style.backgroundColor = "floralwhite";
           }
-          let temp = array[j];
-          array[j] = array[j + 1];
-          array[j + 1] = temp;
-          bars[j].style.height = array[j] * height_factor + "px";
-          bars[j].style.backgroundColor = "red";
-          bars[j + 1].style.height = array[j + 1] * height_factor + "px";
-          bars[j + 1].style.backgroundColor = "red";
-          await sleep_for(speed_factor);
         }
+        let temp = array[j];
+        array[j] = array[j + 1];
+        array[j + 1] = temp;
+        bars[j].style.height = array[j] * height_factor + "px";
+        bars[j].style.backgroundColor = "red";
+        bars[j + 1].style.height = array[j + 1] * height_factor + "px";
+        bars[j + 1].style.backgroundColor = "red";
+        if (sound_required){
+          play_whoosh().then(function() {
+
+          });
+        }
+        
+        await sleep_for(speed_factor);
       }
-      
-      bars[array.length - i - 1].style.backgroundColor = "green";
-      bars[array.length - i - 2].style.backgroundColor = "floralwhite";
-      await sleep_for(speed_factor);
     }
-    return array;
+    
+    bars[array.length - i - 1].style.backgroundColor = "green";
+    if (sound_required){
+      play_beep().then(function() {
+
+      });
+    }
+    
+    bars[array.length - i - 2].style.backgroundColor = "floralwhite";
+    await sleep_for(speed_factor);
+  }
+  return array;
 }
 
 //-----------------------------INSERTION SORT-----------------------------
@@ -158,11 +204,22 @@ async function insertion_sort(array) {
       bars[j + 1].style.backgroundColor = "green";
       bars[j].style.backgroundColor = "red";
 
+      if (sound_required){
+        play_whoosh().then(function() {
+
+        });
+      }
+
       await sleep_for(speed_factor);
       j = j - 1;
     }
 
     bars[j + 1].style.backgroundColor = "grey"
+    if (sound_required){
+      play_beep().then(function() {
+
+      });
+    }
     await sleep_for(100);
     bars[j + 1].style.backgroundColor = "green"
     // array[j + 1] = key;
@@ -200,8 +257,12 @@ async function selection_sort(array){
           bars[c].style.backgroundColor = "floralwhite";
         }
         bars[j].style.backgroundColor = "blue";
+        if (sound_required){
+          play_beep().then(function() {
+    
+          });
+        }
       }
-
       
       
       if (j != jmin){
@@ -220,6 +281,12 @@ async function selection_sort(array){
       bars[jmin].style.backgroundColor = "black";
       bars[i].style.height = array[i] * height_factor + "px";
       bars[jmin].style.height = array[jmin] * height_factor + "px";
+
+      if (sound_required){
+        play_whoosh().then(function() {
+
+        });
+      }
 
       await sleep_for(300);
 
@@ -286,7 +353,7 @@ async function swap(array, i, j, bars) {
       bars[k].style.backgroundColor = "aqua";
     }
   }
-  //bars[i].innerText = array[i];
-  //bars[j].innerText = array[j];
+  // bars[i].innerText = array[i];
+  // bars[j].innerText = array[j];
   return array;
 }

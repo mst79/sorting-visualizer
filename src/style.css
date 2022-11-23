@@ -63,6 +63,11 @@
     margin: 5px;
 }
 
+#sounds{
+    padding: 5px;
+    margin: 5px;
+}
+
 footer{
     display: flex;
     justify-content: space-between;
