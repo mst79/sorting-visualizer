@@ -86,7 +86,7 @@ function sleep_for(ms){
 
 function play_beep() {
   return new Promise(function(resolve, reject) {   // return a promise
-      var audio = new Audio("/sounds/ting.mp3");                     // create audio wo/ src
+      var audio = new Audio("ting.mp3");                     // create audio wo/ src
       audio.preload = "auto";                      // intend to play through
       audio.autoplay = true;                       // autoplay when loaded
       audio.onerror = reject;                      // on error, reject
@@ -96,7 +96,7 @@ function play_beep() {
 
 function play_whoosh() {
   return new Promise(function(resolve, reject) {   // return a promise
-      var audio = new Audio("/sounds/whoosh.mp3");                     // create audio wo/ src
+      var audio = new Audio("whoosh.mp3");                     // create audio wo/ src
       audio.preload = "auto";                      // intend to play through
       audio.autoplay = true;                       // autoplay when loaded
       audio.onerror = reject;                      // on error, reject
